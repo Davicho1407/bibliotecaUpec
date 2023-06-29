@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1033555722567",
+    "project_id": "libreriaupec-d084c",
+    "storage_bucket": "libreriaupec-d084c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1033555722567:android:d2326a27350d23b0390c62",
+        "android_client_info": {
+          "package_name": "com.example.upec_library_bloc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1033555722567-f2far79drunq080lvd4pgvbbth5qrgu3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCdi76kMOjbenLhqaUaYjZIsyfHR1r-sQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1033555722567-f2far79drunq080lvd4pgvbbth5qrgu3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
