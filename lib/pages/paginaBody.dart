@@ -1,11 +1,14 @@
 import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dart_openai/openai.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:page_indicator/page_indicator.dart';
-import 'package:upec_library_bloc/pages/direccionesDrawer/editarUsuario.dart';
+import 'package:upec_library_bloc/pages/direccionesDrawer/chat/api/chat_api.dart';
+import 'package:upec_library_bloc/pages/direccionesDrawer/chat/widgets/chat_page.dart';
+import 'package:upec_library_bloc/pages/direccionesDrawer/edicionUser/editarUsuario.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/libros/libros.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/notificaciones.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/chat/nuevoChat.dart';
@@ -69,92 +72,119 @@ class _PaginaBodyState extends State<PaginaBody> {
         ),
       ),
       drawer: Drawer(
-          child: ListView(
+          child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          UserAccountsDrawerHeader(
-              currentAccountPicture: Container(
-                child: Image.asset(
-                  'assets/img/logo.png',
-                ),
+          DrawerHeader(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: AssetImage('assets/img/fondo_userDrawer.jpg'))),
+            padding: EdgeInsets.all(0),
+            child: Container(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundImage: AssetImage('assets/img/logo.jpg'),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text("$usuario", style: TextStyle(color: Colors.black)),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text("$email", style: TextStyle(color: Colors.black)),
+                ],
               ),
-              decoration: BoxDecoration(color: Colors.tealAccent.shade100),
-              accountName: Text("Usuario: $usuario",
-                  style: TextStyle(color: Colors.black)),
-              accountEmail:
-                  Text("Email: $email", style: TextStyle(color: Colors.black))),
-          ListTile(
-            leading: Icon(Icons.house),
-            title: Text("Inicio"),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => PaginaBody()));
-            },
+            ),
           ),
-          ListTile(
-            leading: Icon(Icons.chat),
-            title: Text("Nuevo Chat"),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => NuevoChat()));
-            },
+          Expanded(
+            child: ListView(
+              children: [
+                ListTile(
+                  leading: Icon(Icons.chat),
+                  title: Text("Nuevo Chat"),
+                  onTap: () {
+                    final ChatApi chatApi;
+
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ChatPage(chatApi: ChatApi())));
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.content_copy),
+                  title: Text("Nuevo Contenido"),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => NuevoContenido()));
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.book),
+                  title: Text("Libros"),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Libros()));
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.telegram),
+                  title: Text("Red Social"),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => RedSocial()));
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.notifications),
+                  title: Text("Notificaciones"),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Notificaciones()));
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.supervised_user_circle),
+                  title: Text("Editar usuario"),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditarUsuario()));
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.exit_to_app),
+                  title: Text("Salir"),
+                  onTap: () async {
+                    try {
+                      await FirebaseAuth.instance.signOut();
+                      signOutFromGoogle();
+                      //Navegar a la pantalla de inicio de sesión
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                      );
+                    } catch (e) {
+                      print(e);
+                    }
+                  },
+                )
+              ],
+            ),
           ),
-          ListTile(
-            leading: Icon(Icons.content_copy),
-            title: Text("Nuevo Contenido"),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => NuevoContenido()));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.book),
-            title: Text("Libros"),
-            onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Libros()));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.telegram),
-            title: Text("Red Social"),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => RedSocial()));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.notifications),
-            title: Text("Notificaciones"),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Notificaciones()));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.supervised_user_circle),
-            title: Text("Editar usuario"),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => EditarUsuario()));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.exit_to_app),
-            title: Text("Salir"),
-            onTap: () async {
-              try {
-                await FirebaseAuth.instance.signOut();
-                signOutFromGoogle();
-                //Navegar a la pantalla de inicio de sesión
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
-                );
-              } catch (e) {
-                print(e);
-              }
-            },
-          )
         ],
       )),
       body: _PaginaBienvenidad(),
@@ -228,7 +258,7 @@ class MenuDinamico extends StatelessWidget {
         child: Container(
       margin: EdgeInsets.all(30),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.8),
+        color: Colors.white.withOpacity(0.6),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.8),

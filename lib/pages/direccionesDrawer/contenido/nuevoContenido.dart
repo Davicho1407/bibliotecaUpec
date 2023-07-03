@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:hexcolor/hexcolor.dart';
-import 'package:upec_library_bloc/pages/direccionesDrawer/contenido/dise%C3%B1o_barra.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/contenido/dise%C3%B1o_general_widget.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/contenido/fondo_contenido.dart';
+import 'package:upec_library_bloc/pages/paginaBody.dart';
 
 class NuevoContenido extends StatefulWidget {
   const NuevoContenido({super.key});
@@ -37,6 +37,21 @@ class _NuevoContenidoState extends State<NuevoContenido> {
               label: 'Libros que me gustan',
               onTap: () {}),
         ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => PaginaBody()));
+              },
+              icon: Icon(Icons.home),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -47,6 +47,11 @@ dependencies:
   flutter_sliding_up_panel: ^2.0.1
   hexcolor: ^3.0.1
   flutter_speed_dial: ^7.0.0
+  http: ^0.13.6
+  dart_openai: ^1.9.91
+  firebase_storage: ^11.2.4
+  image_picker: ^1.0.0
+  file_picker: ^5.3.1
 
 dev_dependencies:
   flutter_test:

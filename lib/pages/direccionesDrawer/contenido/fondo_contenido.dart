@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/contenido/dise%C3%B1o_general_widget.dart';
+import 'package:upec_library_bloc/pages/direccionesDrawer/contenido/nuevoContenido.dart';
 
 class FondoContenido extends StatelessWidget {
   const FondoContenido({super.key});
@@ -7,6 +9,13 @@ class FondoContenido extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: SpeedDial(
+        animatedIcon: AnimatedIcons.home_menu,
+        onPress: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => NuevoContenido()));
+        },
+      ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
