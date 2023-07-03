@@ -16,6 +16,7 @@ import 'package:upec_library_bloc/pages/direccionesDrawer/contenido/nuevoConteni
 import 'package:upec_library_bloc/pages/direccionesDrawer/redSocial.dart';
 import 'package:upec_library_bloc/pages/screens_login/loginPage.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
+import 'package:upec_library_bloc/services/auth_services.dart';
 
 class PaginaBody extends StatefulWidget {
   const PaginaBody({super.key});
@@ -25,11 +26,6 @@ class PaginaBody extends StatefulWidget {
 }
 
 class _PaginaBodyState extends State<PaginaBody> {
-  GoogleSignIn _googleSignIn = GoogleSignIn();
-  void signOutFromGoogle() async {
-    await _googleSignIn.signOut();
-  }
-
   @override
   void initState() {
     getDatosID();
@@ -170,8 +166,7 @@ class _PaginaBodyState extends State<PaginaBody> {
                   title: Text("Salir"),
                   onTap: () async {
                     try {
-                      await FirebaseAuth.instance.signOut();
-                      signOutFromGoogle();
+                      AuthService().signOut();
                       //Navegar a la pantalla de inicio de sesión
                       Navigator.pushReplacement(
                         context,

@@ -1,5 +1,10 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:quickalert/quickalert.dart';
@@ -14,7 +19,9 @@ class EditarUsuario extends StatefulWidget {
 }
 
 class _EditarUsuarioState extends State<EditarUsuario> {
-  String nombre = '';
+  String apodo = '';
+  String nombre_completo = '';
+  String nivel_de_carrera = '';
 
   final uid = FirebaseAuth.instance.currentUser?.uid;
   @override
@@ -34,7 +41,9 @@ class _EditarUsuarioState extends State<EditarUsuario> {
         if (doc.exists) {
           final data = doc.data() as Map<String, dynamic>;
           setState(() {
-            nombre = data['nombre'];
+            apodo = data['nombre'];
+            nombre_completo = data['nombre_completo'];
+            nivel_de_carrera = data['nivel_de_carrera'];
           });
         } else {
           print('El documento no existe.');
@@ -43,10 +52,68 @@ class _EditarUsuarioState extends State<EditarUsuario> {
     }
   }
 
+  PlatformFile? pickedFile;
+  UploadTask? uploadTask;
+  Future selectFile() async {
+    final result = await FilePicker.platform.pickFiles();
+    if (result == null) return;
+    setState(() {
+      pickedFile = result.files.first;
+    });
+  }
+
+  Future uploadFile() async {
+    final path = 'profileImage/${pickedFile!.name}';
+    final file = File(pickedFile!.path!);
+    final ref = FirebaseStorage.instance.ref().child(path);
+    setState(() {
+      ref.putFile(file);
+    });
+
+    final snapshot = await uploadTask!.whenComplete(() {});
+    final urlDownload = await snapshot.ref.getDownloadURL();
+    print('Link: $urlDownload');
+    setState(() {
+      uploadTask = null;
+    });
+  }
+
+  Widget buildProgress() => StreamBuilder<TaskSnapshot>(
+      stream: uploadTask?.snapshotEvents,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final data = snapshot.data!;
+          double progress = data.bytesTransferred / data.totalBytes;
+          return SizedBox(
+            height: 50,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                LinearProgressIndicator(
+                    value: progress,
+                    backgroundColor: Colors.grey,
+                    color: Colors.green),
+                Center(
+                  child: Text(
+                    '${(100 * progress).roundToDouble()}%',
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                )
+              ],
+            ),
+          );
+        } else {
+          return const SizedBox(
+            height: 50,
+          );
+        }
+      });
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -81,21 +148,37 @@ class _EditarUsuarioState extends State<EditarUsuario> {
               SizedBox(
                 height: 50,
               ),
-              CircleAvatar(
-                radius: 64,
-                backgroundImage: AssetImage('assets/img/user.png'),
+              if (pickedFile != null)
+                Container(
+                  width: 150,
+                  decoration: BoxDecoration(
+                      color: Colors.blueAccent.shade100,
+                      borderRadius: BorderRadius.circular(75)),
+                  child: Image.file(
+                    File(pickedFile!.path!),
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              Container(
+                transform: Matrix4.translationValues(40, -20, 0),
+                child: IconButton(
+                    onPressed: () {
+                      selectFile();
+                      uploadFile();
+                      // selectImage();
+                      // saveImage();
+                    },
+                    icon: Icon(Icons.add_a_photo)),
               ),
-              Positioned(
-                  bottom: -10,
-                  left: 80,
-                  child: IconButton(
-                    icon: Icon(Icons.add_a_photo),
-                    onPressed: () {},
-                  )),
-              SizedBox(
-                height: 25,
+              const SizedBox(
+                height: 15,
               ),
-              Text(
+              buildProgress(),
+              const SizedBox(
+                height: 20,
+              ),
+              const Text(
                 'Información de perfil',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -104,38 +187,132 @@ class _EditarUsuarioState extends State<EditarUsuario> {
                 textAlign: TextAlign.center,
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
               Center(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: EdgeInsets.symmetric(horizontal: 30),
                   child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.cyanAccent.shade100,
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                    ),
-                    transform: Matrix4.translationValues(0, 20, 0),
-                    width: 500,
-                    height: 175,
                     child: SingleChildScrollView(
                       child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Row(children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Usuario: ' '$nombre',
+                        padding: const EdgeInsets.all(32.0),
+                        child: Column(
+                          children: [
+                            Row(children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Usuario: ',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ],
                               ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                            ],
-                          ),
-                        ]),
+                              Column(
+                                children: [Text('$apodo')],
+                              )
+                            ]),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Row(
+                              children: [
+                                Column(
+                                  children: [
+                                    Text(
+                                      'Nombre Completo: ',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  children: [Text('$nombre_completo')],
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Row(
+                              children: [
+                                Column(
+                                  children: [
+                                    Text(
+                                      'Nivel de carrera: ',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  children: [Text('$nivel_de_carrera')],
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 70,
+                            ),
+                            MaterialButton(
+                                height: 50,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(30))),
+                                splashColor: Colors.cyanAccent,
+                                color: Colors.greenAccent,
+                                child: Text(
+                                  'Editar usuario',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text(
+                                            'Actualiza tus datos',
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          content: EditarUser(),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStateProperty.all<
+                                                            Color>(
+                                                        Colors.greenAccent),
+                                                foregroundColor:
+                                                    MaterialStateProperty.all<
+                                                        Color>(Colors.white),
+                                                elevation: MaterialStateProperty
+                                                    .all<double>(10.0),
+                                                shape:
+                                                    MaterialStateProperty.all<
+                                                        RoundedRectangleBorder>(
+                                                  RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                  ),
+                                                ),
+                                              ),
+                                              child: Text(
+                                                'Cerrar',
+                                                style: TextStyle(
+                                                    color: Colors.black),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      });
+                                }),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -144,57 +321,6 @@ class _EditarUsuarioState extends State<EditarUsuario> {
               SizedBox(
                 height: 30,
               ),
-              MaterialButton(
-                  height: 50,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30))),
-                  splashColor: Colors.cyanAccent,
-                  color: Colors.greenAccent,
-                  child: Text(
-                    'Editar usuario',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text(
-                              'Actualiza tus datos',
-                              textAlign: TextAlign.center,
-                            ),
-                            content: EditarUser(),
-                            actions: <Widget>[
-                              TextButton(
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Colors.greenAccent),
-                                  foregroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Colors.white),
-                                  elevation:
-                                      MaterialStateProperty.all<double>(10.0),
-                                  shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                  ),
-                                ),
-                                child: Text(
-                                  'Cerrar',
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        });
-                  }),
               SizedBox(
                 height: 30,
               ),
@@ -216,6 +342,8 @@ class EditarUser extends StatefulWidget {
 class _EditarUserState extends State<EditarUser> {
   final _formKey = GlobalKey<FormState>();
   final _firstNameController = TextEditingController();
+  final _nombreCompletoController = TextEditingController();
+  final _nivelCarreraController = TextEditingController();
 
   String? validator(String? value) {
     return (value == null || value.isEmpty)
@@ -232,6 +360,8 @@ class _EditarUserState extends State<EditarUser> {
             .doc(uid)
             .update({
           'nombre': _firstNameController.text,
+          'nombre_completo': _nombreCompletoController.text,
+          'nivel_de_carrera': _nivelCarreraController.text,
         });
         QuickAlert.show(
           context: context,
@@ -282,30 +412,50 @@ class _EditarUserState extends State<EditarUser> {
                     SizedBox(
                       height: 20,
                     ),
-                    //Apellido update
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(horizontal: 25),
-                    //   child: TextFormField(
-                    //       controller: _emailController,
-                    //       keyboardType: TextInputType.text,
-                    //       decoration: InputDecoration(
-                    //           enabledBorder: OutlineInputBorder(
-                    //               borderSide: BorderSide(color: Colors.white),
-                    //               borderRadius: BorderRadius.circular(12)),
-                    //           focusedBorder: OutlineInputBorder(
-                    //               borderSide: BorderSide(
-                    //                   color: Colors.greenAccent, width: 4),
-                    //               borderRadius: BorderRadius.circular(12)),
-                    //           hintText: 'Email',
-                    //           fillColor: Colors.white),
-                    //       validator: validator),
-                    // ),
+                    //Nombre completo
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: TextFormField(
+                          controller: _nombreCompletoController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(12)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.greenAccent, width: 4),
+                                  borderRadius: BorderRadius.circular(12)),
+                              hintText: 'Nombre Completo',
+                              fillColor: Colors.white),
+                          validator: validator),
+                    ),
+
+                    SizedBox(
+                      height: 20,
+                    ),
+                    //Nivel de carrera completo
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: TextFormField(
+                          controller: _nivelCarreraController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(12)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.greenAccent, width: 4),
+                                  borderRadius: BorderRadius.circular(12)),
+                              hintText: 'Nivel de carrera',
+                              fillColor: Colors.white),
+                          validator: validator),
+                    ),
+                    //Boton de guardar
                     SizedBox(
                       height: 40,
                     ),
-
-                    //Boton de guardar
-
                     MaterialButton(
                         child: Container(
                             padding: EdgeInsets.all(20),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:upec_library_bloc/pages/direccionesDrawer/chat/models/chat_message.dart';
 
 class NuevoChat extends StatelessWidget {
   const NuevoChat({super.key});

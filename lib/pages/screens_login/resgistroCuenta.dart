@@ -92,7 +92,7 @@ class _RegistroPageState extends State<RegistroPage> {
             ),
             Container(
               padding: EdgeInsets.all(20),
-              height: 711,
+              height: 710,
               width: 340,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -113,7 +113,7 @@ class _RegistroPageState extends State<RegistroPage> {
                         fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
-                    height: 40,
+                    height: 10,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),

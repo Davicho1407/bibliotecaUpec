@@ -30,21 +30,11 @@ class _RedSocialState extends State<RedSocial> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               GestureDetector(
-                child: Neumorphic(
-                  style: NeumorphicStyle(
-                      shape: NeumorphicShape.flat,
-                      intensity: _isPressed ? 0.8 : 1.0,
-                      boxShape: NeumorphicBoxShape.roundRect(
-                          BorderRadius.circular(12)),
-                      depth: _isPressed ? -5 : 5,
-                      lightSource: LightSource.topLeft,
-                      color: Colors.white),
-                  child: Container(
-                    child: Transform.scale(
-                        scale: scaleFactor,
-                        child: Image.asset('assets/img/telegram.png')),
-                    width: 150,
-                  ),
+                child: Container(
+                  child: Transform.scale(
+                      scale: scaleFactor,
+                      child: Image.asset('assets/img/telegram.png')),
+                  width: 150,
                 ),
                 onTapDown: (_) {
                   setState(() {
