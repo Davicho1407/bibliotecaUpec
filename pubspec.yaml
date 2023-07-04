@@ -52,6 +52,10 @@ dependencies:
   firebase_storage: ^11.2.4
   image_picker: ^1.0.0
   file_picker: ^5.3.1
+  cached_network_image: ^3.2.3
+  animate_do: ^3.0.2
+  calendar_flutter_aj: ^1.0.0+4
+
 
 dev_dependencies:
   flutter_test:

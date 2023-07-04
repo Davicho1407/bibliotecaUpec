@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:upec_library_bloc/pages/direccionesDrawer/notificaciones.dart';
+import 'package:upec_library_bloc/pages/direccionesDrawer/notificaciones/notificaciones.dart';
 
 void main() {
   testWidgets('Prueba de Notificaciones', (WidgetTester tester) async {

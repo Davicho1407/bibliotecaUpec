@@ -10,7 +10,7 @@ import 'package:upec_library_bloc/pages/direccionesDrawer/chat/api/chat_api.dart
 import 'package:upec_library_bloc/pages/direccionesDrawer/chat/widgets/chat_page.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/edicionUser/editarUsuario.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/libros/libros.dart';
-import 'package:upec_library_bloc/pages/direccionesDrawer/notificaciones.dart';
+import 'package:upec_library_bloc/pages/direccionesDrawer/notificaciones/notificaciones.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/chat/nuevoChat.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/contenido/nuevoContenido.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/redSocial.dart';
