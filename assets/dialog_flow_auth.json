@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "bibliotecaflutterbot-kbbb",
+  "private_key_id": "4ef24be7710edf6d22c0608d098a56bba5dfee3e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCVk0mm2xIYnAGk\n4i4+CH7qoh7r4W8gI86GcqfFch1Sj57tMMOOkvO4WuIxg/b0136IadwD1b3B9SDM\nyHnBCishXa6ZvFB7Et77silqt8ywFfA40055IrJftdvV23VGrI+S3rA9/zQ+gTzy\nb0M7rRjZXYkY7wVSro4qTPypOvwaL5sW2GcEbwQEYpU0GFboOh+dzl+/hLS8fY7J\n/EEc1EuIU7UuNTmr4T/qG9vHXlKyOHRUf3WGnvGhAb0HpnaAb0joREKDwKiydI+w\nBdfu8CcdED1LsxldqUYMH+BUMvFZ0VygGoeIoVO+G5WcW6w9/2VWgw8qAIok19Fz\ngA/XUF5HAgMBAAECggEADrGHXLLMlkpNBwuJC2L+RMJkUzu0FO4vjZmZzZWmN8QQ\nErDlpQ3ej0+uRLr3+ZlpvrDXgjDvESypajSPcV00W3S+gC+1oEF8UjFwTCF+JBYj\noRFw9gloiGpvDBUg8i5ldEIYAh8d3L4JZK91ZVldxYyguShR14t6P8GMWHuI5HF+\nUoORjivZUx6/PAklE2g8FoXRiiMLq0MB7Xs35k9vlktPJcK6XX3PNkZ0L4FnLJ3y\njhZOc60u5z8VEVj8iWaHCVYMnMrIdbozPjYEuopfKM75jgdYGRo/jWpkCaX/vBTJ\nuIxXTuXdMoF9hZeiysqZlM20ctHhNA7R8QsKetvlgQKBgQDEbjM/WQM1EoOMXj0J\noQdc933g3iT4L8N/Xvf2bIXB94EU8eVxXYpoq++PRqg4omQNJ4qkRZ1WyQnUwUJk\n3ij5fMNwOZELsGAEPKniPunw4s6zm6bqk+Bax0LPPQXdiogMx/1SwmsZ00gPlYKc\nSLWt06bjb4/jqB6zK6sde/q6YQKBgQDC74I9T7/PTc1x3EiHZBgjfAJll6DgpKNE\nmkpNA4TwPzEMMRpqDo0NABM6sK7WdmA+7uPvolzhNWoEaSRzhGjO1DK6KM7v73HK\n0WP0ZJaRFLaq+E14VWwBJwr53eojtks6ekTRE6AS7xfqlhxoN48M3kQQWY/nYmYD\nAgv/uK9ppwKBgQCQExgpnZs5oSO1oCV6245wBONiPO220Cm/UaPkLgMJmwUlnKsi\ntG5hicLDPxsBtzJVZ6xMAvd9gSVh1IJjQ4OgQn+C3+ZgQXSbhvdAB89FLMZZfJA4\nPFBxpPd+045qyUIyxbkrq4gswAh5zbqn8Li5D6W36csLOvORjTUMAjSL4QKBgFYW\nC4AkDeLwyv+zdlxEOdzB0RUoZyWNz4RmVtW37idi4LgvnyijEGtjUxqiGDQhxtNE\nEGktXLMgMZeND0nseZSNZXGMwAZ5ydj1q5ysJ0oeyaSrTxsLLk07/r7l35ax1HsY\nr/ddIV37NKamcBkeIBBgv9Iwmzpl3AMMDlx6JQ0VAoGAJ+z9e+x4GSrmMOoMtcaS\n7QFYmIB/f+is2jgj+shRwsttueSYelvVQi7BPyrPngKwn15gxUB4J1no/Atk1+Uf\nOY7060SsZSpGdQQClpqWCgqXqA+HwxvhFJD28PfdpmgguZ4t9hFRvUJdrt/x8bQu\nGhnR6L/AoIizZkI5dOyi2+k=\n-----END PRIVATE KEY-----\n",
+  "client_email": "bookiabot@bibliotecaflutterbot-kbbb.iam.gserviceaccount.com",
+  "client_id": "106634842641850294395",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/bookiabot%40bibliotecaflutterbot-kbbb.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

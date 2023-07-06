@@ -1,21 +1,17 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dart_openai/openai.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:page_indicator/page_indicator.dart';
+import 'package:upec_library_bloc/pages/direccionesDrawer/asistente_bookia/assistent.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/chat/api/chat_api.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/chat/widgets/chat_page.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/edicionUser/editarUsuario.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/libros/libros.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/notificaciones/notificaciones.dart';
-import 'package:upec_library_bloc/pages/direccionesDrawer/chat/nuevoChat.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/contenido/nuevoContenido.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/redSocial.dart';
 import 'package:upec_library_bloc/pages/screens_login/loginPage.dart';
-import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 import 'package:upec_library_bloc/services/auth_services.dart';
 
 class PaginaBody extends StatefulWidget {
@@ -35,6 +31,7 @@ class _PaginaBodyState extends State<PaginaBody> {
   final user = FirebaseAuth.instance.currentUser?.uid;
   String usuario = '';
   String email = '';
+  String imagenUrlReference = '';
   Future getDatosID() async {
     if (user != null) {
       DocumentReference documentReference =
@@ -83,10 +80,6 @@ class _PaginaBodyState extends State<PaginaBody> {
                   SizedBox(
                     height: 10,
                   ),
-                  CircleAvatar(
-                    radius: 40,
-                    backgroundImage: AssetImage('assets/img/logo.jpg'),
-                  ),
                   SizedBox(
                     height: 10,
                   ),
@@ -111,8 +104,7 @@ class _PaginaBodyState extends State<PaginaBody> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                ChatPage(chatApi: ChatApi())));
+                            builder: (context) => AssistentBookia()));
                   },
                 ),
                 ListTile(
