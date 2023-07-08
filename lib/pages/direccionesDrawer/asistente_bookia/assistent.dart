@@ -31,7 +31,7 @@ class _AssistentBookiaState extends State<AssistentBookia> {
             style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
           ),
           backgroundColor: Colors.tealAccent,
-          iconTheme: IconThemeData(color: Colors.black),
+          iconTheme: const IconThemeData(color: Colors.black),
         ),
         body: Container(
             child: Column(

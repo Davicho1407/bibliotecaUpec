@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:page_indicator/page_indicator.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/asistente_bookia/assistent.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/chat/api/chat_api.dart';
-import 'package:upec_library_bloc/pages/direccionesDrawer/chat/widgets/chat_page.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/edicionUser/editarUsuario.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/libros/libros.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/notificaciones/notificaciones.dart';
@@ -72,7 +70,7 @@ class _PaginaBodyState extends State<PaginaBody> {
             decoration: BoxDecoration(
                 image: DecorationImage(
                     fit: BoxFit.fill,
-                    image: AssetImage('assets/img/fondo_userDrawer.jpg'))),
+                    image: AssetImage('assets/fondo_userDrawer.jpg'))),
             padding: EdgeInsets.all(0),
             child: Container(
               child: Column(
@@ -198,25 +196,25 @@ class __PaginaBienvenidadState extends State<_PaginaBienvenidad> {
           children: [
             MenuDinamico(
                 title: 'Bienvenid@ a MyLibraryUpec!!!',
-                imagepath: 'assets/img/buho.png',
+                imagepath: 'assets/buho.png',
                 tamanoImage: 300,
                 descripcion:
                     'MyLibraryUpec es tu biblioteca virtual diseñada para facilitar tu acceso a libros, materiales de estudio, asistencia virtual y más a los estudiantes de Agropecuaria.'),
             MenuDinamico(
                 title: 'Descubre los recursos de estudio',
-                imagepath: 'assets/img/libro_celular.png',
+                imagepath: 'assets/libro_celular.png',
                 tamanoImage: 300,
                 descripcion:
                     'Encuentra libros digitales como guía para tu aprendizaje.'),
             MenuDinamico(
                 title: 'Explora las novedades',
-                imagepath: 'assets/img/novedades.png',
+                imagepath: 'assets/novedades.png',
                 tamanoImage: 150,
                 descripcion:
                     'Matente al día con lanzamiento de nuevos libros, noticias y actualizaciones.'),
             MenuDinamico(
                 title: 'Asistente Virtual Dinámico',
-                imagepath: 'assets/img/asistente.png',
+                imagepath: 'assets/asistente.png',
                 tamanoImage: 250,
                 descripcion:
                     'Esta aquí para ayudarte en tu camino académico. Haz preguntas, solicita recomendaciones de libros, obten información sobre temas específicos y más.')

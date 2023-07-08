@@ -39,7 +39,7 @@ class _NuevoContenidoState extends State<NuevoContenido> {
         ],
       ),
       bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -63,10 +63,10 @@ class ContenidoGeneral extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage(
-              'assets/img/fondo_naturaleza.png'), // Ruta de la imagen de fondo
+              'assets/fondo_naturaleza.png'), // Ruta de la imagen de fondo
           fit: BoxFit.cover, // Ajuste de la imagen en el contenedor
         ),
       ),

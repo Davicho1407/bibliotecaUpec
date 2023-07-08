@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RedSocial extends StatefulWidget {
@@ -33,7 +32,7 @@ class _RedSocialState extends State<RedSocial> {
                 child: Container(
                   child: Transform.scale(
                       scale: scaleFactor,
-                      child: Image.asset('assets/img/telegram.png')),
+                      child: Image.asset('assets/telegram.png')),
                   width: 150,
                 ),
                 onTapDown: (_) {

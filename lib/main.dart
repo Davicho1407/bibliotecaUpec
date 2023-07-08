@@ -25,6 +25,6 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Made_tommy',
           primarySwatch: Colors.blue,
         ),
-        home: Scaffold(body: InicioPage()));
+        home: const Scaffold(body: InicioPage()));
   }
 }

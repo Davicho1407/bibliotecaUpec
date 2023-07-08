@@ -57,9 +57,7 @@ class _LoginPageState extends State<LoginPage> {
               height: 10,
             ),
             Container(
-                width: 225,
-                height: 225,
-                child: Image.asset("assets/img/logo.png")),
+                width: 225, height: 225, child: Image.asset("assets/logo.png")),
             SizedBox(
               height: 20,
             ),
@@ -77,15 +75,22 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(
                       height: 10,
                     ),
-                    Text(
-                      "Bienvenido a UPECMyLibrary",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.black,
-                          decoration: TextDecoration.none),
-                    ),
+                    RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                            text: 'Bienvenido a ',
+                            style: TextStyle(
+                                fontSize: 25.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: 'MyLibraryUpec',
+                                  style: TextStyle(
+                                      fontSize: 30.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.greenAccent))
+                            ])),
                     SizedBox(
                       height: 20,
                     ),
@@ -257,7 +262,7 @@ class _BtnGoogleState extends State<BtnGoogle> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
-                        "assets/img/iconGoogle.png",
+                        "assets/iconGoogle.png",
                         width: 40,
                       )
                     ],

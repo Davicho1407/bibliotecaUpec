@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:quickalert/quickalert.dart';
 import 'package:upec_library_bloc/pages/screens_login/loginPage.dart';
+import 'package:upec_library_bloc/services/auth_services.dart';
 import 'package:upec_library_bloc/services/cloudFirestore.dart';
 
 class RegistroPage extends StatefulWidget {
@@ -41,11 +42,9 @@ class _RegistroPageState extends State<RegistroPage> {
     super.dispose();
   }
 
-  final ConexionCloudFirestore _auth = ConexionCloudFirestore();
   void registrarUser() async {
     try {
-      final UserCredential = await _auth.register(_emailController.text,
-          _passwordController.text, _firstNameController.text);
+      AuthService().register(_emailController.text, _passwordController.text);
 
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => LoginPage()));
@@ -311,9 +310,42 @@ class _RegistroPageState extends State<RegistroPage> {
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18),
                           ))),
-                      onPressed: () {
-                        if (_formKey.currentState?.validate() == true) {
-                          registrarUser();
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate() == true) {
+                          _formKey.currentState!.save();
+                          try {
+                            AuthService().register(_emailController.text,
+                                _passwordController.text);
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginPage()));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content:
+                                      Text('Sus datos han sido registrados')),
+                            );
+                          } on FirebaseAuthException catch (e) {
+                            // Ocurrió un error durante el registro
+                            if (e.code == 'email-already-in-use') {
+                              // El correo electrónico ya está en uso, mostrar mensaje de error
+                              print('El correo electrónico ya está en uso.');
+                            } else {
+                              // Otro tipo de error, mostrar mensaje genérico
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text(
+                                        'Ocurrió un error durante el registro.')),
+                              );
+                            }
+                          } catch (e) {
+                            print('El error generaĺes: $e');
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text(
+                                      'Ocurrió un error durante el registro.')),
+                            );
+                          }
                         }
                       }),
                   SizedBox(
