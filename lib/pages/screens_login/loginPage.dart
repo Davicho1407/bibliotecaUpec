@@ -40,6 +40,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final double height = MediaQuery.of(context).size.height;
+
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
@@ -62,7 +64,8 @@ class _LoginPageState extends State<LoginPage> {
               height: 20,
             ),
             Container(
-              height: 550,
+              alignment: Alignment.center,
+              height: height * 0.75,
               width: 340,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(40),

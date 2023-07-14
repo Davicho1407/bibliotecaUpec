@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:upec_library_bloc/pages/inicio.dart';
+import 'package:animate_do/animate_do.dart';
 
 import 'firebase_options.dart';
 
@@ -23,8 +24,9 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(
           fontFamily: 'Made_tommy',
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.green,
         ),
-        home: const Scaffold(body: InicioPage()));
+        home: Scaffold(
+            body: FadeIn(duration: Duration(seconds: 3), child: InicioPage())));
   }
 }

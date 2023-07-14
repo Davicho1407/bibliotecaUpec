@@ -53,8 +53,7 @@ class _VistaWidgetsState extends State<VistaWidgets> {
                           borderRadius: BorderRadius.circular(10.0),
                           image: DecorationImage(
                               fit: BoxFit.fill,
-                              image:
-                                  AssetImage("assets/img/shanti lesur.jpg"))),
+                              image: AssetImage("assets/shanti lesur.jpg"))),
                     ),
                   )),
               Positioned(

@@ -1,7 +1,6 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:upec_library_bloc/pages/screens_login/loginPage.dart';
+import 'package:animate_do/animate_do.dart';
 
 class InicioPage extends StatefulWidget {
   const InicioPage({super.key});
@@ -34,8 +33,13 @@ class _InicioPageState extends State<InicioPage> {
         Center(
           child: GestureDetector(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LoginPage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => FadeIn(
+                            child: LoginPage(),
+                            duration: Duration(seconds: 2),
+                          )));
             },
             child: Container(
               width: 300,

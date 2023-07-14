@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/libros/card_information.dart';
-import 'package:upec_library_bloc/pages/direccionesDrawer/libros/filtroBusqueda.dart';
+import 'package:upec_library_bloc/pages/direccionesDrawer/libros/information_book.dart';
 
 class Libros extends StatefulWidget {
   const Libros({super.key});
@@ -11,22 +11,52 @@ class Libros extends StatefulWidget {
 }
 
 class _LibrosState extends State<Libros> {
-  TextEditingController _tituloController = TextEditingController();
+  final TextEditingController _tituloController = TextEditingController();
+  final TextEditingController _autorController = TextEditingController();
+  final TextEditingController _editorialController = TextEditingController();
+  final TextEditingController _materiaController = TextEditingController();
   List<QueryDocumentSnapshot> _resultados = [];
 
-  Future<void> buscarLibroPorTitulo([String? titulo]) async {
+  Future<void> buscarLibro(
+      {String? titulo,
+      String? autor,
+      String? editorial,
+      String? materia}) async {
     final CollectionReference librosCollection =
         FirebaseFirestore.instance.collection('libros');
 
     QuerySnapshot querySnapshot;
 
-    if (titulo != null) {
-      querySnapshot =
-          await librosCollection.where('titulo', isEqualTo: titulo).get();
+    if (titulo != null ||
+        autor != null ||
+        editorial != null ||
+        materia != null) {
+      Query query = librosCollection;
+
+      if (titulo != null) {
+        query = query.where('titulo',
+            isGreaterThanOrEqualTo: titulo,
+            isLessThanOrEqualTo: titulo + '\uf8ff');
+      }
+      if (autor != null) {
+        query = query.where('autor',
+            isGreaterThanOrEqualTo: autor,
+            isLessThanOrEqualTo: autor + '\uf8ff');
+      }
+      if (editorial != null) {
+        query = query.where('editorial',
+            isGreaterThanOrEqualTo: editorial,
+            isLessThanOrEqualTo: editorial + '\uf8ff');
+      }
+      if (materia != null) {
+        query = query.where('materia',
+            isGreaterThanOrEqualTo: materia,
+            isLessThanOrEqualTo: materia + '\uf8ff');
+      }
+      querySnapshot = await query.get();
     } else {
       querySnapshot = await librosCollection.get();
     }
-
     setState(() {
       _resultados = querySnapshot.docs;
     });
@@ -34,6 +64,10 @@ class _LibrosState extends State<Libros> {
 
   @override
   void dispose() {
+    _tituloController.dispose();
+    _autorController.dispose();
+    _editorialController.dispose();
+    _materiaController.dispose();
     super.dispose();
   }
 
@@ -41,6 +75,7 @@ class _LibrosState extends State<Libros> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: const Text(
             "Libros",
             style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
@@ -54,34 +89,124 @@ class _LibrosState extends State<Libros> {
               height: 20,
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: _tituloController,
-                decoration: InputDecoration(labelText: 'Busca por titulo'),
+              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: Text(
+                  'Rellene los campos para establecer una busqueda más exacta'),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _tituloController,
+                      decoration: InputDecoration(
+                        labelText: 'Título',
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 16,
+                  ),
+                  Expanded(
+                    child: TextField(
+                      controller: _autorController,
+                      decoration: InputDecoration(labelText: 'Autor'),
+                    ),
+                  )
+                ],
               ),
             ),
-            ElevatedButton(
-                onPressed: () {
-                  if (_tituloController.text.isEmpty) {
-                    buscarLibroPorTitulo();
-                  } else {
-                    buscarLibroPorTitulo(_tituloController.text);
-                  }
-                },
-                child: Text('Buscar')),
-            ElevatedButton(
-                onPressed: () {
-                  buscarLibroPorTitulo();
-                },
-                child: Text('Mostrar todos')),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _editorialController,
+                      decoration: InputDecoration(labelText: 'Editorial'),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 16,
+                  ),
+                  Expanded(
+                    child: TextField(
+                      controller: _materiaController,
+                      decoration: InputDecoration(labelText: 'Materia'),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  MaterialButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      splashColor: Colors.white,
+                      color: Colors.greenAccent,
+                      onPressed: () {
+                        buscarLibro(
+                          titulo: _tituloController.text.isNotEmpty
+                              ? _tituloController.text
+                              : null,
+                          autor: _autorController.text.isNotEmpty
+                              ? _autorController.text
+                              : null,
+                          editorial: _editorialController.text.isNotEmpty
+                              ? _editorialController.text
+                              : null,
+                          materia: _materiaController.text.isNotEmpty
+                              ? _materiaController.text
+                              : null,
+                        );
+                      },
+                      child: Text(
+                        'Buscar',
+                        style: TextStyle(fontSize: 18),
+                      )),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  MaterialButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      splashColor: Colors.white,
+                      color: Colors.greenAccent,
+                      onPressed: () {
+                        buscarLibro();
+                      },
+                      child: Text(
+                        'Mostrar todos',
+                        style: TextStyle(fontSize: 18),
+                      )),
+                ],
+              ),
+            ),
             Expanded(
                 child: ListView.builder(
                     itemCount: _resultados.length,
                     itemBuilder: (context, index) {
                       String titulo = _resultados[index]['titulo'];
                       String autor = _resultados[index]['autor'];
-                      return CardsInformation(
-                          titulo: titulo, autor: autor, materia: '');
+                      String editorial = _resultados[index]['editorial'];
+                      String materia = _resultados[index]['materia'];
+
+                      return GestureDetector(
+                        onDoubleTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => InformationBook()));
+                        },
+                        child: CardsInformation(
+                            titulo: titulo, autor: autor, materia: materia),
+                      );
                     })),
           ],
         ));

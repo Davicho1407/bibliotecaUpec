@@ -9,18 +9,11 @@ class FondoContenido extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: SpeedDial(
-        animatedIcon: AnimatedIcons.home_menu,
-        onPress: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => NuevoContenido()));
-        },
-      ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
-                'assets/img/fondo_naturaleza.png'), // Ruta de la imagen de fondo
+                'assets/fondo_contenido.png'), // Ruta de la imagen de fondo
             fit: BoxFit.cover, // Ajuste de la imagen en el contenedor
           ),
         ),
