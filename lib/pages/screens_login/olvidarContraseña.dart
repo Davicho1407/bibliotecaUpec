@@ -79,7 +79,7 @@ class _OlvideContrasePageState extends State<OlvideContrasePage> {
                   Container(
                       width: 225,
                       height: 225,
-                      child: Image.asset("assets/img/logo.png")),
+                      child: Image.asset("assets/logo.png")),
                   SizedBox(
                     height: 30,
                   ),

@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:upec_library_bloc/pages/direccionesDrawer/notificaciones/notifications/firebase_api.dart';
 import 'package:upec_library_bloc/pages/inicio.dart';
 import 'package:animate_do/animate_do.dart';
 
@@ -10,6 +11,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FirebaseApi().initNotifications();
   runApp(const MyApp());
 }
 

@@ -1,5 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:upec_library_bloc/pages/paginaBody.dart';
 
@@ -23,7 +21,6 @@ class _LoginPageState extends State<LoginPage> {
 
   final _formKey = GlobalKey<FormState>();
   bool _isObscure = true;
-  bool _isObscure2 = true;
 
   String? validator(String? value) {
     return (value == null || value.isEmpty)
@@ -45,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xFF5BDDAB), Color(0xFFACEDD3)], // Colores degradados
           begin: Alignment.topLeft, // Punto inicial del degradado
@@ -55,12 +52,12 @@ class _LoginPageState extends State<LoginPage> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Container(
-                width: 225, height: 225, child: Image.asset("assets/logo.png")),
             SizedBox(
+                width: 225, height: 225, child: Image.asset("assets/logo.png")),
+            const SizedBox(
               height: 20,
             ),
             Container(
@@ -75,12 +72,12 @@ class _LoginPageState extends State<LoginPage> {
               child: Center(
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     RichText(
                         textAlign: TextAlign.center,
-                        text: TextSpan(
+                        text: const TextSpan(
                             text: 'Bienvenido a ',
                             style: TextStyle(
                                 fontSize: 25.0,
@@ -94,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                                       fontWeight: FontWeight.bold,
                                       color: Colors.greenAccent))
                             ])),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Material(
@@ -111,12 +108,12 @@ class _LoginPageState extends State<LoginPage> {
                                     keyboardType: TextInputType.emailAddress,
                                     decoration: InputDecoration(
                                         enabledBorder: OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.white),
+                                            borderSide: const BorderSide(
+                                                color: Colors.white),
                                             borderRadius:
                                                 BorderRadius.circular(12)),
                                         focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
+                                            borderSide: const BorderSide(
                                                 color: Colors.greenAccent,
                                                 width: 4),
                                             borderRadius:
@@ -126,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                                     validator: validator,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 20,
                                 ),
                                 //Password Controller
@@ -149,12 +146,12 @@ class _LoginPageState extends State<LoginPage> {
                                           },
                                         ),
                                         enabledBorder: OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.white),
+                                            borderSide: const BorderSide(
+                                                color: Colors.white),
                                             borderRadius:
                                                 BorderRadius.circular(12)),
                                         focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
+                                            borderSide: const BorderSide(
                                                 color: Colors.greenAccent,
                                                 width: 4),
                                             borderRadius:
@@ -165,49 +162,46 @@ class _LoginPageState extends State<LoginPage> {
                                     onChanged: (value) {},
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 20,
                                 ),
-                                BtnGoogle()
+                                const BtnGoogle()
                               ],
                             )),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 40,
                     ),
                     BtnIniciarSesion(
                         email: _emailController.text,
                         password: _passwordController.text,
                         formkey: _formKey),
-                    SizedBox(
+                    const SizedBox(
                       height: 40,
                     ),
-                    Container(
-                      child: Row(
-                        children: [
-                          SafeArea(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                BtnDireccion(
-                                    nombre: "Olvide mi contraseña?",
-                                    ruta: OlvideContrasePage())
-                              ],
-                            ),
+                    const Row(
+                      children: [
+                        SafeArea(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              BtnDireccion(
+                                  nombre: "Olvide mi contraseña?",
+                                  ruta: OlvideContrasePage())
+                            ],
                           ),
-                          SafeArea(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                BtnDireccion(
-                                    nombre: "Registrarse?",
-                                    ruta: RegistroPage())
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
+                        ),
+                        SafeArea(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              BtnDireccion(
+                                  nombre: "Registrarse?", ruta: RegistroPage())
+                            ],
+                          ),
+                        )
+                      ],
                     )
                   ],
                 ),
@@ -249,7 +243,7 @@ class _BtnGoogleState extends State<BtnGoogle> {
     return Material(
         child: GestureDetector(
             child: AnimatedContainer(
-              duration: Duration(milliseconds: 200),
+              duration: const Duration(milliseconds: 200),
               height: 40,
               width: 200,
               decoration: BoxDecoration(
@@ -270,7 +264,7 @@ class _BtnGoogleState extends State<BtnGoogle> {
                       )
                     ],
                   ),
-                  Column(
+                  const Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [Text("Continuar con Google")],
@@ -351,7 +345,7 @@ class _BtnIniciarSesionState extends State<BtnIniciarSesion> {
                 _isPressed ? Colors.grey.shade200 : Colors.greenAccent.shade200,
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Row(
+          child: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Column(

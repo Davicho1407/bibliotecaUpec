@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class InformationBook extends StatefulWidget {
+  final String titulo;
+  final String autor;
+  final String materia;
+  final String editorial;
+  final String descripcion;
   const InformationBook({
     super.key,
+    required this.titulo,
+    required this.autor,
+    required this.materia,
+    required this.editorial,
+    required this.descripcion,
   });
 
   @override
@@ -10,28 +21,28 @@ class InformationBook extends StatefulWidget {
 }
 
 class _InformationBookState extends State<InformationBook> {
+  bool isBookFavorite = false;
+
+  String? titulofavoritolibro;
+  String? autorfavoritolibro;
+  String? materiafavoritolibro;
+  Future<void> saveFavoriteBook(
+      String titulo, String autor, String materia) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    await preferences.setString('titulofavoritolibro', titulo);
+    await preferences.setString('autorfavoritolibro', autor);
+    await preferences.setString('materiafavoritolibro', materia);
+
+    setState(() {
+      titulofavoritolibro = titulo;
+      autorfavoritolibro = autor;
+      materiafavoritolibro = materia;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    // double iconSize = 55;
-
-    // void _onPressed() {
-    //   setState(() {
-    //     iconSize = 45; // Tamaño más pequeño al hundir el icono
-    //   });
-
-    //   Future.delayed(Duration(milliseconds: 200), () {
-    //     setState(() {
-    //       iconSize = 55; // Tamaño original después de un tiempo de espera
-    //     });
-    //   });
-
-    //   // Aquí puedes realizar otras acciones al presionar el botón
-    //   Navigator.push(
-    //     context,
-    //     MaterialPageRoute(builder: (context) => InformationBook()),
-    //   );
-    // }
-
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
 
@@ -45,17 +56,17 @@ class _InformationBookState extends State<InformationBook> {
                   TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             ),
             backgroundColor: Colors.tealAccent,
-            iconTheme: IconThemeData(color: Colors.black),
+            iconTheme: const IconThemeData(color: Colors.black),
           ),
           body: SafeArea(
               child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               GestureDetector(
                 child: SizedBox(
-                  height: height * 0.7,
+                  height: height * 0.8,
                   child: Stack(
                     children: [
                       Positioned(
@@ -63,15 +74,15 @@ class _InformationBookState extends State<InformationBook> {
                           left: 20,
                           child: Material(
                             child: Container(
-                              height: height * 0.6,
+                              height: height * 0.7,
                               width: width * 0.92,
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(10),
                                   boxShadow: [
-                                    new BoxShadow(
+                                    BoxShadow(
                                         color: Colors.grey.withOpacity(0.3),
-                                        offset: new Offset(-10.0, 10.0),
+                                        offset: const Offset(-10.0, 10.0),
                                         blurRadius: 20.0,
                                         spreadRadius: 4.80),
                                   ]),
@@ -91,7 +102,7 @@ class _InformationBookState extends State<InformationBook> {
                               width: 130,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10.0),
-                                  image: DecorationImage(
+                                  image: const DecorationImage(
                                       fit: BoxFit.fill,
                                       image: AssetImage(
                                           "assets/shanti lesur.jpg"))),
@@ -100,22 +111,27 @@ class _InformationBookState extends State<InformationBook> {
                       Positioned(
                           top: 45,
                           left: 190,
-                          child: Container(
+                          child: SizedBox(
                             height: 170,
                             width: 190,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('titulo',
-                                    style: TextStyle(
-                                        fontSize: 23,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold)),
+                                Expanded(
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.vertical,
+                                    child: Text(widget.titulo,
+                                        style: const TextStyle(
+                                            fontSize: 23,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                ),
                               ],
                             ),
                           )),
                       Positioned(
-                        top: 120,
+                        top: 140,
                         left: 20,
                         width: width * 0.92,
                         height: 190,
@@ -124,76 +140,92 @@ class _InformationBookState extends State<InformationBook> {
                         ),
                       ),
                       Positioned(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Autor:',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              'Materia:',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              'Editorial:',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              'Descripcion:',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15),
-                            ),
-                          ],
-                        ),
-                        top: 230,
+                        top: 250,
                         left: 50,
-                      ),
-                      Positioned(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'autor',
-                              style: TextStyle(fontSize: 15),
-                            ),
-                            SizedBox(
+                            RichText(
+                                textAlign: TextAlign.justify,
+                                text: TextSpan(
+                                    text: 'Autor:   ',
+                                    style: const TextStyle(
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                          text: widget.autor,
+                                          style: const TextStyle(
+                                              fontSize: 15.0,
+                                              color: Colors.black54))
+                                    ])),
+                            const SizedBox(
                               height: 20,
                             ),
-                            Text(
-                              '',
-                              style: TextStyle(fontSize: 15),
-                            ),
-                            SizedBox(
+                            RichText(
+                                textAlign: TextAlign.justify,
+                                text: TextSpan(
+                                    text: 'Materia:   ',
+                                    style: const TextStyle(
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                          text: widget.materia,
+                                          style: const TextStyle(
+                                              fontSize: 15.0,
+                                              color: Colors.black54))
+                                    ])),
+                            const SizedBox(
                               height: 20,
                             ),
-                            Text(
-                              'editorial',
-                              style: TextStyle(fontSize: 15),
-                            ),
-                            SizedBox(
+                            RichText(
+                                textAlign: TextAlign.justify,
+                                text: TextSpan(
+                                    text: 'Editorial:   ',
+                                    style: const TextStyle(
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                          text: widget.editorial,
+                                          style: const TextStyle(
+                                              fontSize: 15.0,
+                                              color: Colors.black54))
+                                    ])),
+                            const SizedBox(
                               height: 20,
                             ),
-                            Text(
-                              'N.N',
-                              style: TextStyle(fontSize: 15),
+                            const Text(
+                              'Descripcion: ',
+                              style: TextStyle(
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
                             ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            SizedBox(
+                              height: height * 0.17,
+                              width: width * 0.78,
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.vertical,
+                                child: Text(
+                                  widget.descripcion,
+                                  textAlign: TextAlign.justify,
+                                  style: const TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 15.0,
+                                  ),
+                                ),
+                              ),
+                            )
                           ],
                         ),
-                        top: 230,
-                        left: 150,
                       ),
                       Positioned(
                         bottom: 10,
@@ -201,13 +233,26 @@ class _InformationBookState extends State<InformationBook> {
                         child: MaterialButton(
                           splashColor: Colors.transparent,
                           highlightColor: Colors.transparent,
-                          onPressed: null,
+                          onPressed: () {
+                            setState(() {
+                              isBookFavorite =
+                                  !isBookFavorite; // Cambiar el estado de favorito/no favorito al hacer clic
+                              if (isBookFavorite) {
+                                saveFavoriteBook(widget.titulo, widget.autor,
+                                    widget.materia);
+                              } else {
+                                // Si deseas eliminar las preferencias al dejar de ser favorito, puedes llamar a una función deleteFavoriteBook() en lugar de saveFavoriteBook() aquí.
+                              }
+                            });
+                          },
                           child: AnimatedContainer(
                             duration: Duration(milliseconds: 200),
                             child: Icon(
                               size: 70,
                               Icons.favorite,
-                              color: Colors.red,
+                              color: isBookFavorite
+                                  ? Colors.red
+                                  : Colors.grey.shade100,
                             ),
                           ),
                         ),
@@ -220,8 +265,8 @@ class _InformationBookState extends State<InformationBook> {
                           highlightColor: Colors.transparent,
                           onPressed: null,
                           child: AnimatedContainer(
-                            duration: Duration(milliseconds: 200),
-                            child: Icon(
+                            duration: const Duration(milliseconds: 200),
+                            child: const Icon(
                               size: 70,
                               Icons.download,
                               color: Colors.brown,

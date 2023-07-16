@@ -21,45 +21,55 @@ class _LibrosState extends State<Libros> {
       {String? titulo,
       String? autor,
       String? editorial,
-      String? materia}) async {
+      String? materia,
+      String? descripcion}) async {
     final CollectionReference librosCollection =
         FirebaseFirestore.instance.collection('libros');
 
     QuerySnapshot querySnapshot;
+    try {
+      if (titulo != null ||
+          autor != null ||
+          editorial != null ||
+          materia != null ||
+          descripcion != null) {
+        Query query = librosCollection;
 
-    if (titulo != null ||
-        autor != null ||
-        editorial != null ||
-        materia != null) {
-      Query query = librosCollection;
-
-      if (titulo != null) {
-        query = query.where('titulo',
-            isGreaterThanOrEqualTo: titulo,
-            isLessThanOrEqualTo: titulo + '\uf8ff');
+        if (titulo != null) {
+          query = query.where('titulo',
+              isGreaterThanOrEqualTo: titulo,
+              isLessThanOrEqualTo: titulo + '\uf8ff');
+        }
+        if (autor != null) {
+          query = query.where('autor',
+              isGreaterThanOrEqualTo: autor,
+              isLessThanOrEqualTo: autor + '\uf8ff');
+        }
+        if (editorial != null) {
+          query = query.where('editorial',
+              isGreaterThanOrEqualTo: editorial,
+              isLessThanOrEqualTo: editorial + '\uf8ff');
+        }
+        if (materia != null) {
+          query = query.where('materia',
+              isGreaterThanOrEqualTo: materia,
+              isLessThanOrEqualTo: materia + '\uf8ff');
+        }
+        if (descripcion != null) {
+          query = query.where('descripcion',
+              isGreaterThanOrEqualTo: descripcion,
+              isLessThanOrEqualTo: descripcion + '\uf8ff');
+        }
+        querySnapshot = await query.get();
+      } else {
+        querySnapshot = await librosCollection.get();
       }
-      if (autor != null) {
-        query = query.where('autor',
-            isGreaterThanOrEqualTo: autor,
-            isLessThanOrEqualTo: autor + '\uf8ff');
-      }
-      if (editorial != null) {
-        query = query.where('editorial',
-            isGreaterThanOrEqualTo: editorial,
-            isLessThanOrEqualTo: editorial + '\uf8ff');
-      }
-      if (materia != null) {
-        query = query.where('materia',
-            isGreaterThanOrEqualTo: materia,
-            isLessThanOrEqualTo: materia + '\uf8ff');
-      }
-      querySnapshot = await query.get();
-    } else {
-      querySnapshot = await librosCollection.get();
+      setState(() {
+        _resultados = querySnapshot.docs;
+      });
+    } catch (e) {
+      print('Error al buscar el libro: $e');
     }
-    setState(() {
-      _resultados = querySnapshot.docs;
-    });
   }
 
   @override
@@ -173,18 +183,6 @@ class _LibrosState extends State<Libros> {
                   SizedBox(
                     width: 30,
                   ),
-                  MaterialButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      splashColor: Colors.white,
-                      color: Colors.greenAccent,
-                      onPressed: () {
-                        buscarLibro();
-                      },
-                      child: Text(
-                        'Mostrar todos',
-                        style: TextStyle(fontSize: 18),
-                      )),
                 ],
               ),
             ),
@@ -194,15 +192,21 @@ class _LibrosState extends State<Libros> {
                     itemBuilder: (context, index) {
                       String titulo = _resultados[index]['titulo'];
                       String autor = _resultados[index]['autor'];
-                      String editorial = _resultados[index]['editorial'];
                       String materia = _resultados[index]['materia'];
+                      String editorial = _resultados[index]['editorial'];
+                      String descripcion = _resultados[index]['descripcion'];
 
                       return GestureDetector(
                         onDoubleTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => InformationBook()));
+                                  builder: (context) => InformationBook(
+                                      titulo: titulo,
+                                      autor: autor,
+                                      materia: materia,
+                                      editorial: editorial,
+                                      descripcion: descripcion)));
                         },
                         child: CardsInformation(
                             titulo: titulo, autor: autor, materia: materia),

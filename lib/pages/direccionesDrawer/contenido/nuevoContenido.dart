@@ -5,7 +5,7 @@ import 'package:upec_library_bloc/pages/direccionesDrawer/contenido/actualiacion
 import 'package:upec_library_bloc/pages/direccionesDrawer/contenido/dise%C3%B1o_general_widget.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/contenido/fondo_contenido.dart';
-import 'package:upec_library_bloc/pages/direccionesDrawer/contenido/preferencias.dart';
+import 'package:upec_library_bloc/pages/direccionesDrawer/contenido/preferences/preferencias.dart';
 import 'package:upec_library_bloc/pages/paginaBody.dart';
 
 class NuevoContenido extends StatefulWidget {
@@ -19,7 +19,7 @@ class _NuevoContenidoState extends State<NuevoContenido> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 3,
+        length: 2,
         child: Scaffold(
           body: SafeArea(
               child: Column(
@@ -34,12 +34,10 @@ class _NuevoContenidoState extends State<NuevoContenido> {
                       Icons.article_rounded,
                       color: Colors.blueGrey,
                     ),
-                    text: 'Noticias',
-                  ),
-                  Tab(
-                    icon:
-                        Icon(Icons.auto_mode_sharp, color: Colors.purpleAccent),
-                    text: 'Actializaciones',
+                    child: Text(
+                      'Nuevo Contenido',
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                   Tab(
                     icon: Icon(
@@ -52,32 +50,11 @@ class _NuevoContenidoState extends State<NuevoContenido> {
               ),
               Expanded(
                 child: TabBarView(
-                  children: [
-                    FondoContenido(),
-                    ActualizacionContenido(),
-                    PreferenciasUsuario()
-                  ],
+                  children: [FondoContenido(), PreferenciasUsuario()],
                 ),
               )
             ],
           )),
         ));
-  }
-}
-
-class ContenidoGeneral extends StatelessWidget {
-  const ContenidoGeneral({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(
-              'assets/fondo_naturaleza.png'), // Ruta de la imagen de fondo
-          fit: BoxFit.cover, // Ajuste de la imagen en el contenedor
-        ),
-      ),
-    );
   }
 }

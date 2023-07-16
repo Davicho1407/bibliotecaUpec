@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/notificaciones/calender/pages/calendario.dart';
-import 'package:upec_library_bloc/pages/direccionesDrawer/notificaciones/notifications_oficial.dart';
+import 'package:upec_library_bloc/pages/direccionesDrawer/notificaciones/notifications/notifications_oficial.dart';
 
 class Notificaciones extends StatefulWidget {
   const Notificaciones({super.key});

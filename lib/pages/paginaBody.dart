@@ -94,7 +94,7 @@ class _PaginaBodyState extends State<PaginaBody> {
             child: ListView(
               children: [
                 ListTile(
-                  leading: Icon(Icons.chat),
+                  leading: Icon(Icons.chat, color: Colors.teal.shade400),
                   title: Text("Nuevo Chat"),
                   onTap: () {
                     final ChatApi chatApi;
@@ -106,7 +106,7 @@ class _PaginaBodyState extends State<PaginaBody> {
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.content_copy),
+                  leading: Icon(Icons.content_copy, color: Colors.cyan),
                   title: Text("Nuevo Contenido"),
                   onTap: () {
                     Navigator.push(
@@ -116,7 +116,7 @@ class _PaginaBodyState extends State<PaginaBody> {
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.book),
+                  leading: Icon(Icons.book, color: Colors.brown),
                   title: Text("Libros"),
                   onTap: () {
                     Navigator.push(context,
@@ -124,7 +124,7 @@ class _PaginaBodyState extends State<PaginaBody> {
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.telegram),
+                  leading: Icon(Icons.telegram, color: Colors.blue),
                   title: Text("Red Social"),
                   onTap: () {
                     Navigator.push(context,
@@ -132,7 +132,7 @@ class _PaginaBodyState extends State<PaginaBody> {
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.notifications),
+                  leading: Icon(Icons.notifications, color: Colors.yellow),
                   title: Text("Notificaciones"),
                   onTap: () {
                     Navigator.push(
@@ -142,7 +142,8 @@ class _PaginaBodyState extends State<PaginaBody> {
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.supervised_user_circle),
+                  leading:
+                      Icon(Icons.supervised_user_circle, color: Colors.orange),
                   title: Text("Editar usuario"),
                   onTap: () {
                     Navigator.push(
@@ -152,7 +153,7 @@ class _PaginaBodyState extends State<PaginaBody> {
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.exit_to_app),
+                  leading: Icon(Icons.exit_to_app, color: Colors.red),
                   title: Text("Salir"),
                   onTap: () async {
                     try {

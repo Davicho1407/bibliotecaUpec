@@ -70,10 +70,12 @@ class _RegistroPageState extends State<RegistroPage> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Material(
       child: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
+        height: height,
+        width: width,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -91,7 +93,7 @@ class _RegistroPageState extends State<RegistroPage> {
             ),
             Container(
               padding: EdgeInsets.all(20),
-              height: 710,
+              height: height * 0.9,
               width: 340,
               decoration: BoxDecoration(
                 color: Colors.white,
