@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 
 class InformationBook extends StatefulWidget {
   final String titulo;
@@ -7,6 +11,8 @@ class InformationBook extends StatefulWidget {
   final String materia;
   final String editorial;
   final String descripcion;
+  final String imagenportada;
+  final String libroUrl;
   const InformationBook({
     super.key,
     required this.titulo,
@@ -14,6 +20,8 @@ class InformationBook extends StatefulWidget {
     required this.materia,
     required this.editorial,
     required this.descripcion,
+    required this.imagenportada,
+    required this.libroUrl,
   });
 
   @override
@@ -26,19 +34,43 @@ class _InformationBookState extends State<InformationBook> {
   String? titulofavoritolibro;
   String? autorfavoritolibro;
   String? materiafavoritolibro;
-  Future<void> saveFavoriteBook(
-      String titulo, String autor, String materia) async {
+  String? imagefavoritolibro;
+
+  Future<void> saveFavoriteBook(String titulo, String autor, String materia,
+      String imagefavoritolibro) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
     await preferences.setString('titulofavoritolibro', titulo);
     await preferences.setString('autorfavoritolibro', autor);
     await preferences.setString('materiafavoritolibro', materia);
+    await preferences.setString('imagefavoritolibro', imagefavoritolibro);
 
     setState(() {
       titulofavoritolibro = titulo;
       autorfavoritolibro = autor;
       materiafavoritolibro = materia;
     });
+  }
+
+  Future<void> descargarPDF(String url) async {
+    try {
+      final http.Response response = await http.get(Uri.parse(url));
+      final String fileName = 'libro001.pdf'; // Asigna un nombre al archivo
+
+      final Directory directorio = await getApplicationDocumentsDirectory();
+      final File file = File('${directorio.path}/$fileName');
+      await file.writeAsBytes(response.bodyBytes);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PDFView(
+            filePath: file.path,
+          ),
+        ),
+      );
+    } catch (e) {
+      print('Algo ocurrio: $e');
+    }
   }
 
   @override
@@ -102,10 +134,10 @@ class _InformationBookState extends State<InformationBook> {
                               width: 130,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10.0),
-                                  image: const DecorationImage(
+                                  image: DecorationImage(
                                       fit: BoxFit.fill,
-                                      image: AssetImage(
-                                          "assets/shanti lesur.jpg"))),
+                                      image:
+                                          NetworkImage(widget.imagenportada))),
                             ),
                           )),
                       Positioned(
@@ -239,7 +271,7 @@ class _InformationBookState extends State<InformationBook> {
                                   !isBookFavorite; // Cambiar el estado de favorito/no favorito al hacer clic
                               if (isBookFavorite) {
                                 saveFavoriteBook(widget.titulo, widget.autor,
-                                    widget.materia);
+                                    widget.materia, widget.imagenportada);
                               } else {
                                 // Si deseas eliminar las preferencias al dejar de ser favorito, puedes llamar a una función deleteFavoriteBook() en lugar de saveFavoriteBook() aquí.
                               }
@@ -263,7 +295,9 @@ class _InformationBookState extends State<InformationBook> {
                         child: MaterialButton(
                           splashColor: Colors.transparent,
                           highlightColor: Colors.transparent,
-                          onPressed: null,
+                          onPressed: () {
+                            descargarPDF(widget.libroUrl);
+                          },
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 200),
                             child: const Icon(

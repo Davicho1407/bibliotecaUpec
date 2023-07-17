@@ -16,13 +16,26 @@ class _LibrosState extends State<Libros> {
   final TextEditingController _editorialController = TextEditingController();
   final TextEditingController _materiaController = TextEditingController();
   List<QueryDocumentSnapshot> _resultados = [];
+  ImageProvider _getImageProvider(String imageUrl) {
+    try {
+      return NetworkImage(imageUrl);
+    } catch (e) {
+      print('Error al cargar la imagen: $e');
+      // Aquí puedes manejar la excepción, como mostrar una imagen de reemplazo o una imagen de error.
+      // Por ejemplo:
+      return AssetImage('assets/img/user.png');
+    }
+  }
 
-  Future<void> buscarLibro(
-      {String? titulo,
-      String? autor,
-      String? editorial,
-      String? materia,
-      String? descripcion}) async {
+  Future<void> buscarLibro({
+    String? titulo,
+    String? autor,
+    String? editorial,
+    String? materia,
+    String? descripcion,
+    String? imagen_portada,
+    String? libroUrl,
+  }) async {
     final CollectionReference librosCollection =
         FirebaseFirestore.instance.collection('libros');
 
@@ -32,7 +45,9 @@ class _LibrosState extends State<Libros> {
           autor != null ||
           editorial != null ||
           materia != null ||
-          descripcion != null) {
+          descripcion != null ||
+          imagen_portada != null ||
+          libroUrl != null) {
         Query query = librosCollection;
 
         if (titulo != null) {
@@ -59,6 +74,16 @@ class _LibrosState extends State<Libros> {
           query = query.where('descripcion',
               isGreaterThanOrEqualTo: descripcion,
               isLessThanOrEqualTo: descripcion + '\uf8ff');
+        }
+        if (imagen_portada != null) {
+          query = query.where('imagen_portada',
+              isGreaterThanOrEqualTo: imagen_portada,
+              isLessThanOrEqualTo: imagen_portada + '\uf8ff');
+        }
+        if (libroUrl != null) {
+          query = query.where('pdfUrl',
+              isGreaterThanOrEqualTo: libroUrl,
+              isLessThanOrEqualTo: libroUrl + '\uf8ff');
         }
         querySnapshot = await query.get();
       } else {
@@ -195,21 +220,30 @@ class _LibrosState extends State<Libros> {
                       String materia = _resultados[index]['materia'];
                       String editorial = _resultados[index]['editorial'];
                       String descripcion = _resultados[index]['descripcion'];
-
+                      String imagenportada =
+                          _resultados[index]['imagen_portada'];
+                      String libroUrl = _resultados[index]['pdfUrl'];
                       return GestureDetector(
                         onDoubleTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => InformationBook(
-                                      titulo: titulo,
-                                      autor: autor,
-                                      materia: materia,
-                                      editorial: editorial,
-                                      descripcion: descripcion)));
+                                        titulo: titulo,
+                                        autor: autor,
+                                        materia: materia,
+                                        editorial: editorial,
+                                        descripcion: descripcion,
+                                        imagenportada: imagenportada,
+                                        libroUrl: libroUrl,
+                                      )));
                         },
                         child: CardsInformation(
-                            titulo: titulo, autor: autor, materia: materia),
+                          titulo: titulo,
+                          autor: autor,
+                          materia: materia,
+                          imagenportada: imagenportada,
+                        ),
                       );
                     })),
           ],

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:upec_library_bloc/pages/direccionesDrawer/libros/information_book.dart';
 
 class CardsInformation extends StatefulWidget {
   final String titulo;
   final String autor;
   final String materia;
+  final String imagenportada;
 
   const CardsInformation({
     Key? key,
     required this.titulo,
     required this.autor,
     required this.materia,
+    required this.imagenportada,
   }) : super(key: key);
   @override
   State<CardsInformation> createState() => _CardsInformationState();
@@ -67,7 +68,7 @@ class _CardsInformationState extends State<CardsInformation> {
                             borderRadius: BorderRadius.circular(10.0),
                             image: DecorationImage(
                                 fit: BoxFit.fill,
-                                image: AssetImage("assets/shanti lesur.jpg"))),
+                                image: NetworkImage(widget.imagenportada))),
                       ),
                     )),
                 Positioned(

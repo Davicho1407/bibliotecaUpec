@@ -10,7 +10,7 @@ class FondoContenido extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
                 'assets/fondo_contenido.png'), // Ruta de la imagen de fondo
@@ -23,20 +23,18 @@ class FondoContenido extends StatelessWidget {
           child: Center(
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                Container(
-                  child: Text(
-                    'Nuevo Contenido',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 26),
-                  ),
+                const Text(
+                  'Nuevo Contenido',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 26),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Container(

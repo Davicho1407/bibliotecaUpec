@@ -13,6 +13,8 @@ class _PreferenciasUsuarioState extends State<PreferenciasUsuario> {
   String? titulofavoritolibro;
   String? autorfavoritolibro;
   String? materiafavoritolibro;
+  String? imagefavoritolibro;
+
   Map<String, dynamic> userPreferences = {};
 
   Future<void> loadPreferences() async {
@@ -21,6 +23,8 @@ class _PreferenciasUsuarioState extends State<PreferenciasUsuario> {
       titulofavoritolibro = preferences.getString('titulofavoritolibro');
       autorfavoritolibro = preferences.getString('autorfavoritolibro');
       materiafavoritolibro = preferences.getString('materiafavoritolibro');
+      materiafavoritolibro = preferences.getString('materiafavoritolibro');
+      imagefavoritolibro = preferences.getString('imagefavoritolibro');
     });
   }
 
@@ -47,9 +51,11 @@ class _PreferenciasUsuarioState extends State<PreferenciasUsuario> {
             child: Column(
               children: [
                 CardsInformation(
-                    titulo: '${titulofavoritolibro ?? 'Ninguno'}',
-                    autor: ' ${autorfavoritolibro ?? 'Ninguno'}',
-                    materia: ' ${materiafavoritolibro ?? 'Ninguno'}')
+                  titulo: '${titulofavoritolibro ?? 'Ninguno'}',
+                  autor: ' ${autorfavoritolibro ?? 'Ninguno'}',
+                  materia: ' ${materiafavoritolibro ?? 'Ninguno'}',
+                  imagenportada: '${imagefavoritolibro ?? 'Ninguno'}',
+                )
               ],
             ),
           ),

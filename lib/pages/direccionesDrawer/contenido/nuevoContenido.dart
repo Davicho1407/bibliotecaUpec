@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:hexcolor/hexcolor.dart';
-import 'package:upec_library_bloc/pages/direccionesDrawer/contenido/actualiacion_contenido.dart';
-import 'package:upec_library_bloc/pages/direccionesDrawer/contenido/dise%C3%B1o_general_widget.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/contenido/fondo_contenido.dart';
 import 'package:upec_library_bloc/pages/direccionesDrawer/contenido/preferences/preferencias.dart';
-import 'package:upec_library_bloc/pages/paginaBody.dart';
 
 class NuevoContenido extends StatefulWidget {
   const NuevoContenido({super.key});
@@ -18,12 +13,12 @@ class NuevoContenido extends StatefulWidget {
 class _NuevoContenidoState extends State<NuevoContenido> {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
+    return const DefaultTabController(
         length: 2,
         child: Scaffold(
           body: SafeArea(
               child: Column(
-            children: const [
+            children: [
               TabBar(
                 indicatorColor: Colors.cyanAccent,
                 labelColor: Colors.black,
